@@ -265,6 +265,7 @@ static FORCE_INLINE int LZ4_decompress_generic(
 			 * for in-place decompression scenarios
 			 */
 			LZ4_memmove(op, ip, length);
+			LZ4_memcpy(op, ip, length);
 			ip += length;
 			op += length;
 
