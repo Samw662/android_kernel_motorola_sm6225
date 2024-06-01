@@ -48,6 +48,7 @@ static const struct of_device_id dsi_display_dt_match[] = {
 static int dsi_display_enable_status (struct dsi_display *display, bool enable);
 static void dsi_display_is_probed(struct dsi_display *display,
 					int probe_status);
+static unsigned int cur_refresh_rate = 60;
 
 static void dsi_display_mask_ctrl_error_interrupts(struct dsi_display *display,
 			u32 mask, bool enable)
@@ -8124,6 +8125,10 @@ bool dsi_display_is_panel_enable (int panel_index, int *probe_status,
 	return enable;
 }
 EXPORT_SYMBOL(dsi_display_is_panel_enable);
+unsigned int dsi_panel_get_refresh_rate(void)
+{
+	return READ_ONCE(cur_refresh_rate);
+}
 
 int dsi_display_enable(struct dsi_display *display)
 {
@@ -8170,6 +8175,7 @@ int dsi_display_enable(struct dsi_display *display)
 	}
 
 	mode = display->panel->cur_mode;
+	WRITE_ONCE(cur_refresh_rate, mode->timing.refresh_rate);
 
 	if (mode->dsi_mode_flags & DSI_MODE_FLAG_DMS) {
 		rc = dsi_panel_post_switch(display->panel);
