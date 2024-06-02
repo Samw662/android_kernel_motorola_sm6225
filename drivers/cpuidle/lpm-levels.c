@@ -29,7 +29,6 @@
 #include <linux/cpuhotplug.h>
 #include <linux/regulator/machine.h>
 #include <linux/sched/clock.h>
-#include <linux/sched/stat.h>
 #include <soc/qcom/pm.h>
 #include <soc/qcom/event_timer.h>
 #include <soc/qcom/lpm_levels.h>
@@ -1359,8 +1358,6 @@ static bool psci_enter_sleep(struct lpm_cpu *cpu, int idx, bool from_idle)
 	 */
 
 	if (!idx) {
-		if (cpu->bias)
-			biastimer_start(cpu->bias);
 		stop_critical_timings();
 		cpu_do_idle();
 		start_critical_timings();
@@ -1775,7 +1772,6 @@ static int lpm_probe(struct platform_device *pdev)
 	int ret;
 	int size;
 	unsigned int cpu;
-	struct hrtimer *cpu_histtimer;
 	struct kobject *module_kobj = NULL;
 	struct md_region md_entry;
 
