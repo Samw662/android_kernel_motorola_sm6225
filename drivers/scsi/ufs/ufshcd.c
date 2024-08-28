@@ -4984,6 +4984,15 @@ static inline void ufshcd_save_tstamp_of_last_dme_cmd(
 {
 	if (hba->quirks & UFSHCD_QUIRK_DELAY_BEFORE_DME_CMDS)
 		hba->last_dme_cmd_tstamp = ktime_get();
+	}
+
+	if (min_sleep_time_us > 0) {
+		/* allow sleep for extra 50us if needed */
+		usleep_range(min_sleep_time_us, min_sleep_time_us + 50);
+	}
+
+	/* update the last_dme_cmd_tstamp */
+	hba->last_dme_cmd_tstamp = ktime_get();
 }
 
 /**
