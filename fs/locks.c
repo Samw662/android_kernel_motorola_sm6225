@@ -2314,6 +2314,7 @@ int fcntl_setlk(unsigned int fd, struct file *filp, unsigned int cmd,
 		spin_unlock(&current->files->file_lock);
 		if (f != filp) {
 			locks_remove_posix(filp, &current->files);
+			locks_remove_posix(filp, current->files);
 			error = -EBADF;
 		}
 	}
@@ -2444,6 +2445,7 @@ int fcntl_setlk64(unsigned int fd, struct file *filp, unsigned int cmd,
 		spin_unlock(&current->files->file_lock);
 		if (f != filp) {
 			locks_remove_posix(filp, &current->files);
+			locks_remove_posix(filp, current->files);
 			error = -EBADF;
 		}
 	}
