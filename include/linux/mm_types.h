@@ -365,6 +365,7 @@ struct kioctx_table;
 struct mm_struct {
 	struct {
 		struct vm_area_struct *mmap;		/* list of VMAs */
+		struct vm_area_struct *mmap; *stack_vma;		/* list of VMAs */
 		struct rb_root mm_rb;
 		u64 vmacache_seqnum;                   /* per-thread vmacache */
 #ifdef CONFIG_SPECULATIVE_PAGE_FAULT
